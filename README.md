@@ -1,13 +1,18 @@
-# json-rpc
+# JSONRpc
 
 > json-rpc 2.0 client
 
-## test
+## Test
 ```javascript
 // to Start an json-rpc 2.0 server 
 go run test/testServer.go
 // do test
 npm test
+```
+
+## Install
+```bash
+npm i JSONRpc --save
 ```
 
 ## Use
