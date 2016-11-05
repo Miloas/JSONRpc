@@ -17,7 +17,7 @@ npm i JSONRpc --save
 
 ## Use
 ```javascript
-var JSONRpcClient = require('jsonrpc')
+var JSONRpcClient = require('JSONRpc')
 
 let client = new JSONRpcClient('localhost', 8080)
 
