@@ -1,0 +1,28 @@
+{
+  "name": "jsonrpc",
+  "version": "0.0.1",
+  "description": "an json-rpc 2.0 client lib for nodejs",
+  "main": "jsonrpc.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "ava --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Miloas/json-rpc.git"
+  },
+  "keywords": [
+    "json-rpc"
+  ],
+  "author": "miloas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Miloas/json-rpc/issues"
+  },
+  "homepage": "https://github.com/Miloas/json-rpc#readme",
+  "devDependencies": {
+    "ava": "^0.16.0"
+  }
+}
