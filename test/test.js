@@ -1,5 +1,5 @@
 import test from 'ava'
-var JSONRpcClient = require('../jsonrpc.js')
+var JSONRpcClient = require(__dirname + '/../')
 
 let client = new JSONRpcClient('localhost', 8080)
 
