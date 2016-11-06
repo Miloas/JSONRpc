@@ -12,10 +12,18 @@ function thunkPromise(method, params) {
     })
 }
 
-test('add correct', async t => {
-    t.is(await thunkPromise('add', [1,7]), 8)
+test('add correct (Call)', async t => {
+    t.is(await thunkPromise('add', [1, 7]), 8)
 })
 
-test('add error', async t => {
-    await thunkPromise('add', [1]).catch(err => t.is(err,'error'))
+test('add error (Call)', async t => {
+    await thunkPromise('add', [1]).catch(err => t.is(err, 'error'))
+})
+
+test('add correct (CallPromise)', async t => {
+    t.is(await client.CallPromise('add', [1, 2]), 3)
+})
+
+test('add error (CallPromise)', async t => {
+    await client.CallPromise('add', []).catch(err => t.is(err, 'error'))
 })
