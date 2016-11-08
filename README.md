@@ -19,16 +19,16 @@ npm i JSONRpc --save
 ```javascript
 var JSONRpcClient = require('JSONRpc')
 
-let client = new JSONRpcClient('localhost', 8080)
+const client = new JSONRpcClient('localhost', 8080)
 
-client.Call('add', [1,7], (err, ret) => {
+client.call('add', [1,7], (err, ret) => {
     // 8
     if(!err) console.log(ret)
 })
 
 // Promise also support
 (async () => {
-    let ret = await client.CallPromise('add', [1,2])
+    let ret = await client.callPromise('add', [1,2])
     // 3
     console.log(ret)
 })()
