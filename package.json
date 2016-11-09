@@ -24,5 +24,6 @@
   "homepage": "https://github.com/Miloas/json-rpc#readme",
   "devDependencies": {
     "ava": "^0.16.0"
-  }
+  },
+  "dependencies": {}
 }

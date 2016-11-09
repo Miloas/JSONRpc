@@ -1,7 +1,7 @@
 import test from 'ava'
 var JSONRpcClient = require(__dirname + '/../')
 
-let client = new JSONRpcClient('localhost', 8080)
+let client = new JSONRpcClient('localhost', 8080, '/http')
 
 function thunkPromise(method, params) {
     return new Promise(function (resolve, reject) {
