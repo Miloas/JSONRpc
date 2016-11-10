@@ -1,13 +1,13 @@
 {
   "name": "JSONRpc",
-  "version": "0.1.3",
+  "version": "0.2.4",
   "description": "an json-rpc 2.0 client lib for nodejs",
   "main": "jsonrpc.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "ava --verbose"
+    "test": "ava --verbose ./test/test.js"
   },
   "repository": {
     "type": "git",
@@ -25,5 +25,7 @@
   "devDependencies": {
     "ava": "^0.16.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "websocket": "^1.0.23"
+  }
 }

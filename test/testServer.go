@@ -115,57 +115,59 @@ func JSONRpcHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func wsJSONRpcHandler(ws *websocket.Conn) {
-	var body []byte
+	for {
+		var body []byte
 
-	//read the body of the request
-	err := websocket.Message.Receive(ws, &body)
-	if err != nil && err != io.EOF {
-		log.Fatalf("HTTP JSON RPC Handle - ws.Read: %v", err)
-		return
-	}
-	fmt.Printf("Received: %s\n", string(body))
-
-	request := make(map[string]interface{})
-	//unmarshal the request
-	err = json.Unmarshal(body, &request)
-	if err != nil {
-		log.Fatalf("HTTP JSON RPC Handle - json.Unmarshal: %v", err)
-		return
-	}
-	//log.Println(request["method"])
-
-	//get the corresponding function
-	fn, ok := mainMux.m[request["method"].(string)]
-	if ok { //if the function exists, itis called
-		response := fn(request["params"].([]interface{}))
-		//response from the program is encoded
-		data, err := json.Marshal(response)
-		if err != nil {
-			log.Fatalf("HTTP JSON RPC Handle - json.Marshal: %v", err)
+		//read the body of the request
+		err := websocket.Message.Receive(ws, &body)
+		if err != nil && err != io.EOF {
+			log.Fatalf("HTTP JSON RPC Handle - ws.Read: %v", err)
 			return
 		}
-		//result is printed to the output
-		// ws.Write(data)
-		websocket.Message.Send(ws, string(data))
-	} else { //if the function does not exist
-		log.Println("HTTP JSON RPC Handle - No function to call for", request["method"])
-		//an error json is created
-		data, err := json.Marshal(map[string]interface{}{
-			"result": nil,
-			"error": map[string]interface{}{
-				"code":    -32601,
-				"message": "Method not found",
-				"data":    "The called method was not found on the server",
-			},
-			"id": request["id"],
-		})
+		fmt.Printf("Received: %s\n", string(body))
+
+		request := make(map[string]interface{})
+		//unmarshal the request
+		err = json.Unmarshal(body, &request)
 		if err != nil {
-			log.Fatalf("HTTP JSON RPC Handle - json.Marshal: %v", err)
+			log.Fatalf("HTTP JSON RPC Handle - json.Unmarshal: %v", err)
 			return
 		}
-		//it is printed
-		// ws.Write(data)
-		websocket.Message.Send(ws, string(data))
+		//log.Println(request["method"])
+
+		//get the corresponding function
+		fn, ok := mainMux.m[request["method"].(string)]
+		if ok { //if the function exists, itis called
+			response := fn(request["params"].([]interface{}))
+			//response from the program is encoded
+			data, err := json.Marshal(response)
+			if err != nil {
+				log.Fatalf("HTTP JSON RPC Handle - json.Marshal: %v", err)
+				return
+			}
+			//result is printed to the output
+			// ws.Write(data)
+			websocket.Message.Send(ws, string(data))
+		} else { //if the function does not exist
+			log.Println("HTTP JSON RPC Handle - No function to call for", request["method"])
+			//an error json is created
+			data, err := json.Marshal(map[string]interface{}{
+				"result": nil,
+				"error": map[string]interface{}{
+					"code":    -32601,
+					"message": "Method not found",
+					"data":    "The called method was not found on the server",
+				},
+				"id": request["id"],
+			})
+			if err != nil {
+				log.Fatalf("HTTP JSON RPC Handle - json.Marshal: %v", err)
+				return
+			}
+			//it is printed
+			// ws.Write(data)
+			websocket.Message.Send(ws, string(data))
+		}
 	}
 }
 
