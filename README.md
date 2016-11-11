@@ -32,4 +32,10 @@ client.call('add', [1,7], (err, ret) => {
     // 3
     console.log(ret)
 })()
+
+//Json-rpc over websocket
+//It will periodically call add function, and reseive every result from callback
+client.callOverWs('add', [1, 2], function (err, ret) {
+    console.log(ret)
+}, 1000)
 ```
