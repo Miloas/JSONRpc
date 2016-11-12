@@ -38,4 +38,6 @@ client.call('add', [1,7], (err, ret) => {
 client.callOverWs('add', [1, 2], function (err, ret) {
     console.log(ret)
 }, 1000)
+//Close the connection
+client.wsConnection.close(1000, "normal close")
 ```

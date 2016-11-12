@@ -33,7 +33,6 @@ func SetDefaultFunc(def func(http.ResponseWriter, *http.Request)) {
 //JSONRpcHandler : this is the funciton that should be called in order to answer an rpc call
 //should be registered like "http.HandleFunc("/", httpjsonrpc.Handle)"
 func JSONRpcHandler(w http.ResponseWriter, r *http.Request) {
-
 	//JSON RPC commands should be POSTs
 	if r.Method != "POST" {
 		if mainMux.defaultFunction != nil {
@@ -120,18 +119,24 @@ func wsJSONRpcHandler(ws *websocket.Conn) {
 
 		//read the body of the request
 		err := websocket.Message.Receive(ws, &body)
+		if err == io.EOF {
+			break
+		}
 		if err != nil && err != io.EOF {
 			log.Fatalf("HTTP JSON RPC Handle - ws.Read: %v", err)
-			return
+			continue
 		}
 		fmt.Printf("Received: %s\n", string(body))
 
 		request := make(map[string]interface{})
 		//unmarshal the request
 		err = json.Unmarshal(body, &request)
+		if len(body) == 0 {
+			continue
+		}
 		if err != nil {
 			log.Fatalf("HTTP JSON RPC Handle - json.Unmarshal: %v", err)
-			return
+			continue
 		}
 		//log.Println(request["method"])
 
@@ -143,11 +148,14 @@ func wsJSONRpcHandler(ws *websocket.Conn) {
 			data, err := json.Marshal(response)
 			if err != nil {
 				log.Fatalf("HTTP JSON RPC Handle - json.Marshal: %v", err)
-				return
+				continue
 			}
 			//result is printed to the output
 			// ws.Write(data)
-			websocket.Message.Send(ws, string(data))
+			if err := websocket.Message.Send(ws, string(data)); err != nil {
+				log.Fatal("Can't send data")
+				break
+			}
 		} else { //if the function does not exist
 			log.Println("HTTP JSON RPC Handle - No function to call for", request["method"])
 			//an error json is created
@@ -162,11 +170,14 @@ func wsJSONRpcHandler(ws *websocket.Conn) {
 			})
 			if err != nil {
 				log.Fatalf("HTTP JSON RPC Handle - json.Marshal: %v", err)
-				return
+				continue
 			}
 			//it is printed
 			// ws.Write(data)
-			websocket.Message.Send(ws, string(data))
+			if err := websocket.Message.Send(ws, string(data)); err != nil {
+				log.Fatal("Can't send data")
+				break
+			}
 		}
 	}
 }
