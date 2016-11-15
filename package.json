@@ -1,6 +1,6 @@
 {
   "name": "JSONRpc",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "an json-rpc 2.0 client lib for nodejs",
   "main": "jsonrpc.js",
   "directories": {
