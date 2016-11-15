@@ -57,6 +57,8 @@ func JSONRpcHandler(w http.ResponseWriter, r *http.Request) {
 
 	//read the body of the request
 	body, err := ioutil.ReadAll(r.Body)
+	fmt.Printf("Received: %s\n", string(body))
+
 	//log.Println(r)
 	//log.Println(body)
 	if err != nil {

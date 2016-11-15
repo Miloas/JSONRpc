@@ -38,6 +38,13 @@ client.call('add', [1,7], (err, ret) => {
 client.callOverWs('add', [1, 2], function (err, ret) {
     console.log(ret)
 }, 1000)
+
+//It will call add once 
+client.callOverWs('add', [1, 2], function(err, ret) {
+    console.log(ret)
+})
+
 //Close the connection
-client.wsConnection.close(1000, "normal close")
+//If u want to construct a new ws, u should close old one first, or construct a new client object.
+client.closeWs()
 ```
