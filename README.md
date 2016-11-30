@@ -45,6 +45,5 @@ client.callOverWs('add', [1, 2], function(err, ret) {
 })
 
 //Close the connection
-//If u want to construct a new ws, u should close old one first, or construct a new client object.
 client.closeWs()
 ```
