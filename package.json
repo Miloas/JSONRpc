@@ -2,7 +2,7 @@
   "name": "JSONRpc",
   "version": "0.3.10",
   "description": "an json-rpc 2.0 client lib for nodejs",
-  "main": "jsonrpc.js",
+  "main": "lib/jsonrpc.js",
   "directories": {
     "test": "test"
   },
@@ -26,6 +26,6 @@
     "ava": "^0.16.0"
   },
   "dependencies": {
-    "ws": "^1.1.1"
+    "ws": "^7.1.2"
   }
 }
